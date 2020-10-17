@@ -48,20 +48,28 @@ function game(){
 function keyPress(evt){
     switch(evt.code){
         case "ArrowUp":
-            snake.xV = -1;
-            snake.yV = 0;
+            if(snake.xV != 1){
+                snake.xV = -1;
+                snake.yV = 0;
+            }
             break;
         case "ArrowDown":
-            snake.xV = 1;
-            snake.yV = 0;
+            if(snake.xV != -1){
+                snake.xV = 1;
+                snake.yV = 0;
+            }
             break;
         case "ArrowLeft":
-            snake.xV = 0;
-            snake.yV = -1;
+            if(snake.yV != 1){
+                snake.xV = 0;
+                snake.yV = -1;
+            }
             break;
         case "ArrowRight":
-            snake.xV = 0;
-            snake.yV = 1;
+            if(snake.yV != -1){
+                snake.xV = 0;
+                snake.yV = 1;
+            }
             break;
     }
 
