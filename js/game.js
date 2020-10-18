@@ -9,10 +9,14 @@ const FRUIT_COLOR = "red";
 const SNAKE_START_SIZE = 5;
 const PIXEL_BORDER = 4;
 const WRAP_BORDERS = false;
+const SCORE_PER_PIECE = 100;
+const PIECES_PER_FRUIT = 5;
 
 // var snake = new Snake(0,0,SNAKE_START_SIZE);
 snake = new Snake(Math.floor(Math.random() * CANV_WIDTH/BLOCK_SIZE),Math.floor(Math.random() * CANV_HEIGHT/BLOCK_SIZE),SNAKE_START_SIZE);
 var fruit = new Fruit(CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
+var score = 0;
+var highscore = 0;
 
 window.onload=function(){
     set_up();
@@ -30,6 +34,12 @@ function set_up(){
 
     // Sets the framerate of the game
     setInterval(game,1000/FRAME_RATE);
+
+    //Updates High Score if it exists in a cookie
+    if(document.cookie){
+        highscore = document.cookie.substr(10);
+        document.getElementById("high-score").textContent = highscore;
+    }
 }
 
 function game(){
@@ -37,11 +47,16 @@ function game(){
     var death = snake.boundry_check(WRAP_BORDERS,CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
     if(check_colision()){
         fruit.reset(snake);
-        snake.size++;
+        snake.size+=PIECES_PER_FRUIT;
+        score += SCORE_PER_PIECE
+        document.getElementById("score").textContent = score;
+        if(score > highscore){
+            highscore = score;
+            document.getElementById("high-score").textContent = highscore;
+        }
     }
     if(snake.check_death() || death == true){
         restart_game();
-        console.log("game over");
     }
     draw();
     return;
@@ -97,7 +112,10 @@ function check_colision(){
 }
 
 function restart_game(){
+    document.cookie = "highscore=" + highscore;
     alert("Game Over");
+    score = 0;
+    document.getElementById("score").textContent = 0;
     // snake = new Snake(0,0,SNAKE_START_SIZE);
     snake = new Snake(Math.floor(Math.random() * CANV_WIDTH/BLOCK_SIZE),Math.floor(Math.random() * CANV_HEIGHT/BLOCK_SIZE),SNAKE_START_SIZE);
     fruit = new Fruit(CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
