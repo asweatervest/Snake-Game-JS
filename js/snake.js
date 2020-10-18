@@ -19,16 +19,30 @@ class Snake{
         this.pos.y_pos += this.yV;
     }
 
-    boundry_check(max_x, max_y){
-        if(this.pos.x_pos < 0){
-            this.pos.x_pos = max_x;
-        }else if(this.pos.x_pos >= max_x){
-            this.pos.x_pos = 0;
-        }
-        if(this.pos.y_pos < 0){
-            this.pos.y_pos = max_y;
-        }else if(this.pos.y_pos >= max_y){
-            this.pos.y_pos = 0;
+    boundry_check(is_wrapped,max_x, max_y){
+        if(is_wrapped){
+            if(this.pos.x_pos < 0){
+                this.pos.x_pos = max_x;
+            }else if(this.pos.x_pos >= max_x){
+                this.pos.x_pos = 0;
+            }
+            if(this.pos.y_pos < 0){
+                this.pos.y_pos = max_y;
+            }else if(this.pos.y_pos >= max_y){
+                this.pos.y_pos = 0;
+            }
+        }else{
+            if(this.pos.x_pos < 0){
+                return true;
+            }else if(this.pos.x_pos >= max_x){
+                return true;
+            }
+            if(this.pos.y_pos < 0){
+                return true;
+            }else if(this.pos.y_pos >= max_y){
+                return true;
+            }
+            return false;
         }
     }
 

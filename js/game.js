@@ -8,8 +8,10 @@ const SNAKE_COLOR = "lime";
 const FRUIT_COLOR = "red";
 const SNAKE_START_SIZE = 5;
 const PIXEL_BORDER = 4;
+const WRAP_BORDERS = false;
 
-var snake = new Snake(0,0,SNAKE_START_SIZE);
+// var snake = new Snake(0,0,SNAKE_START_SIZE);
+snake = new Snake(Math.floor(Math.random() * CANV_WIDTH/BLOCK_SIZE),Math.floor(Math.random() * CANV_HEIGHT/BLOCK_SIZE),SNAKE_START_SIZE);
 var fruit = new Fruit(CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
 
 window.onload=function(){
@@ -32,12 +34,12 @@ function set_up(){
 
 function game(){
     snake.update_pos();
-    snake.boundry_check(CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
+    var death = snake.boundry_check(WRAP_BORDERS,CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
     if(check_colision()){
         fruit.reset(snake);
         snake.size++;
     }
-    if(snake.check_death()){
+    if(snake.check_death() || death == true){
         restart_game();
         console.log("game over");
     }
@@ -81,10 +83,6 @@ function draw(){
 
     context.fillStyle = SNAKE_COLOR;
     context.fillRect(snake.pos.y_pos * BLOCK_SIZE, snake.pos.x_pos * BLOCK_SIZE, BLOCK_SIZE - PIXEL_BORDER, BLOCK_SIZE - PIXEL_BORDER);
-    // for(tail in snake.prev_pos){
-    //     context.fillRect(tail.y_pos * BLOCK_SIZE, tail.x_pos * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-    //     console.log(tail.x_pos);
-    // }
     snake.prev_pos.forEach(tail => context.fillRect(tail.y_pos * BLOCK_SIZE, tail.x_pos * BLOCK_SIZE, BLOCK_SIZE - PIXEL_BORDER, BLOCK_SIZE - PIXEL_BORDER));
 
     context.fillStyle = FRUIT_COLOR;
@@ -99,6 +97,7 @@ function check_colision(){
 }
 
 function restart_game(){
-    snake = new Snake(0,0,SNAKE_START_SIZE);
+    // snake = new Snake(0,0,SNAKE_START_SIZE);
+    snake = new Snake(Math.floor(Math.random() * CANV_WIDTH/BLOCK_SIZE),Math.floor(Math.random() * CANV_HEIGHT/BLOCK_SIZE),SNAKE_START_SIZE);
     fruit = new Fruit(CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
 }
