@@ -97,6 +97,7 @@ function check_colision(){
 }
 
 function restart_game(){
+    alert("Game Over");
     // snake = new Snake(0,0,SNAKE_START_SIZE);
     snake = new Snake(Math.floor(Math.random() * CANV_WIDTH/BLOCK_SIZE),Math.floor(Math.random() * CANV_HEIGHT/BLOCK_SIZE),SNAKE_START_SIZE);
     fruit = new Fruit(CANV_WIDTH/BLOCK_SIZE,CANV_HEIGHT/BLOCK_SIZE);
